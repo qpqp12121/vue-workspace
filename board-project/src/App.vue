@@ -4,33 +4,28 @@
     <router-link to="/about">About</router-link> |
     <router-link to="/board">게시판</router-link> |
     <router-link to="/todo">Todo</router-link>
-
   </nav>
   <router-view/>
 </template>
 
 <script>
   export default {
-
     data() {
       return {
-        rootData: 'hello'
+        rootData: 'hello' //HeaderComponent.vue로 전달X(?)
       }
     },
-
     provide() {
       return {
-        rootList: '\\ ( \' o \' ) /',
+        rootList:  '\\ ( \' o \' ) /',
         rootStr: 'GoGo'
       }
     }
-
   }
 </script>
 
 <style>
 @import url("../src/assets/style.css");
-
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

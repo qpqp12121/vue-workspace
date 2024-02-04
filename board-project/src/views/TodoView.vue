@@ -1,44 +1,58 @@
 <template>
   <HeadComponent @save-todo="saveTodo" />
-  <BodyComponent v-bind:list="todoList" @delete-todo="deleteTodo" />
+  <BodyComponent v-bind:list="todoList" @delete-todo="deleteTodo" @cancel-todo="cancelTodo" />
 </template>
 
 <script>
-  import HeadComponent from '../components/HeadComponent.vue'
-  import BodyComponent from '../components/BodyComponent.vue'
+import HeadComponent from '../components/HeadComponent.vue'
+import BodyComponent from '../components/BodyComponent.vue'
 
-  export default {
-    components: {
-      HeadComponent,
-      BodyComponent
+export default {
+  data() {
+    return {
+      todoList: [
+        {no:1, todo: 'Hit the gym', cancelFlag: false},
+        {no:2, todo: 'Pay bills', cancelFlag: false},
+        {no:3, todo: 'Meet George', cancelFlag: false},
+        {no:4, todo: 'Buy eggs', cancelFlag: false}
+      ]
+    }
+  },
+
+  methods: {
+    //할일삭제
+    deleteTodo(no) {
+      this.todoList = this.todoList.filter(todo => todo.no == no? false : true);
     },
 
-    data() {
-      return{
-        todoList: [
-          {no:1, todo: 'Hit the gym', cancleFlag: true},
-          {no:2, todo: 'Pay bills', cancleFlag: false},
-          {no:3, todo: 'Meet George', cancleFlag: false},
-          {no:4, todo: 'Buy eggs', cancleFlag: false},
-        ]
-      }
+    //할일등록
+    saveTodo(todo) {
+      let idx = this.todoList.length - 1;
+      let no = this.todoList[idx].no + 1;
+      // let no = parseInt(this.todoList[idx].no) + 1;
+      let thing = { no, todo, cancelFlag: false };
+
+      this.todoList.splice(this.todoList.length, 0, thing);
     },
 
-    methods: {
-      //1.add 버튼 누르면 데이터 todolist에 추가
-      saveTodo(todo) {
-        let idx = this.todoList.length - 1;
-        let no = parseInt(this.todoList[idx].no) + 1;
-        let thing = {no, todo};
-
-        this.todoList.splice(this.todoList.length, 0, thing);
-      },
-
-      deleteTodo(no) {
-        this.todoList = this.todoList.filter(thing => thing.no == no? false : true)
+    //완료목록 줄긋기
+    cancelTodo(no) {
+      for(let i = 0; i < this.todoList.length; i++) {
+        if(this.todoList[i].no == no) {
+          //cancelFlag 초기값 false <= click시 true값 넣기
+          this.todoList[i].cancelFlag = !this.todoList[i].cancelFlag;
+          break;
+        }
       }
     }
-  }
+  },
+
+  components: {
+    HeadComponent,
+    BodyComponent
+  },
+  
+}
 </script>
 
 <style>
@@ -161,8 +175,5 @@ input {
 
 .addBtn:hover {
   background-color: #bbb;
-}
-
+}  
 </style>
-
-
