@@ -55,7 +55,9 @@ export default {
 }
 </script>
 
-<style>
+<!-- StoreView 양식에 영향가서 일단 scoped처리 함 -->
+<style scoped> 
+/* <style> */
 body {
   margin: 0;
   min-width: 250px;
