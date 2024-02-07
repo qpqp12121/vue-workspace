@@ -106,7 +106,17 @@ export default {
     },
     deleteInfo(userId) {
       //서버에 해당 데이터 삭제
-      console.log(userId);
+      axios
+        .delete('/api/users/' + userId)
+        .then(result => {
+          if(result.data.affectedRows != 0 && result.data.changedRows == 0) {
+            alert('정상적으로 삭제되었습니다');
+            this.$router.push({ path: '/' });
+          }else {
+            alert(`삭제되지 않았습니다\n메세지를 확인해주세요\n${result.data.message}`);
+          }
+        })
+        .catch(err => console.log(err));
     }
 
 

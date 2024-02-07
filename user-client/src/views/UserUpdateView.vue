@@ -52,7 +52,7 @@
       </table>
     </div>
     <div class="row">
-      <button class="btn btn-info" v-on:click="insertInfo()">저장</button>
+      <button class="btn btn-info" v-on:click="updateInfo()">저장</button>
     </div>
   </div>  
 </template>
@@ -70,56 +70,42 @@ export default {
         user_name: '',
         user_gender: null, //필수가 아니지만 선택하지 않으면 오류 떠서 null로 함 // ''
         user_age: null,
-        // join_date: null
+        join_date: null
       }
     }
   },
   created() {
-    let updateNo = this.$route.query.userId;
-    this.getUserInfo(updateNo);
+    let searchNo = this.$route.query.userId;
+    this.getUserInfo(searchNo);
   },
   methods: {
     async getUserInfo(userId) {
       let result = await axios.get('/api/users/' + userId)
                    .catch(err => console.log(err));
       let info = result.data;
-
-      //??
-      // let data = [this.getSendData(result.)]
-
       this.userInfo = info;             
     },
 
-    ///////
-    insertInfo() {
-      //1.유효성 체크
+    updateInfo() {
       if(!this.validation()) return;
-      //2.ajax
-      //2-1) 실제 보낼 데이터 선별
-      let data = this.getSendData();
       
-      //2-2) axios를 이용해 ajax 실행
-      //http://localhost:3000/users
+      let data = this.getSendData();
+
       axios
-      .post('/api/users', data) //data 반드시 객체or배열 --axios 자동으로 json포맷으로 변환
+      .put('/api/users/' + this.userInfo.user_id, data) //data 반드시 객체or배열 --axios 자동으로 json포맷으로 변환
       .then(result => {
-        //3.결과처리
-        // console.log(result);
-        let user_no = result.data.insertId;
-        if(user_no == 0) {
-          alert(`등록되지 않았습니다.\n메세지를 확인해 주세요\n${result.data.message}`)
+        console.log(result.data);
+        let changed = result.data.changedRows;
+        if(changed == 0) {
+          alert(`수정되지 않았습니다.\n메세지를 확인해 주세요\n${result.data.message}`)
         }else {
-          alert(`정상적으로 등록되었습니다.`);
-          this.userInfo.user_no = user_no; //input비어있던 값 추가시켜 주려고
+          alert(`정상적으로 수정되었습니다.`);
+          this.$router.push({ path: '/' });
         }
       })
       .catch(err => console.log(err))
     },
     validation() { //유효성 체크
-      if(this.userInfo.user_id == '') {
-        alert('id를 입력하세요');
-        return false;
-      } 
       if(this.userInfo.user_pwd == '') {
         alert('pw를 입력하세요');
         return false;
@@ -130,10 +116,11 @@ export default {
       }
       return true; //결과값을 전달해야 위에서 조건 처리가능
     },
+
     getSendData() {
       let obj = this.userInfo;
 
-      let delData = ["user_no", "user_id"]; //user_no은 크게 의미있지 않아 안 넣어도 되긴 함
+      let delData = ["user_no", "user_id", "join_date"]; //user_no은 크게 의미있지 않아 안 넣어도 되긴 함
       let newObj = {};
 
       let isTargeted = null;    
@@ -149,7 +136,6 @@ export default {
               newObj[field] = obj[field];
           }
       }
-      
       let sendData = {
         "param": newObj  //실제 보내고자 하는 데이터 형식으로 param으로 감싸서
       }
