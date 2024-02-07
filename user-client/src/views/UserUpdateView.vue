@@ -8,13 +8,13 @@
         <tr>
           <th class="text-right table-primary">No</th>
           <td class="text-center">
-            <input class="form-control" type="number" v-model="userInfo.user_no" disabled>
+            <input class="form-control" type="number" v-model="userInfo.user_no" readonly>
           </td>
         </tr>
         <tr>  
           <th class="text-right table-primary">ID</th>
           <td class="text-center">
-            <input class="form-control" type="text" v-model="userInfo.user_id" disabled>
+            <input class="form-control" type="text" v-model="userInfo.user_id" readonly>
           </td>
         </tr> 
         <tr> 
@@ -43,12 +43,12 @@
             <input class="form-control" type="number" v-model="userInfo.user_age" min="0" max="150">
           </td>
         </tr>
-        <!-- <tr>  
+        <tr>  
           <th class="text-right table-primary">가입날짜</th>
           <td class="text-center">
             <input class="form-control" type="date" v-model="userInfo.join_date">
           </td>
-        </tr> -->
+        </tr>
       </table>
     </div>
     <div class="row">
@@ -64,6 +64,7 @@ export default {
   data() {
     return {
       userInfo: {
+        //없어도 상관은 없는데 헷갈리지 않게 명시함
         user_no: null,
         user_id:'',
         user_pwd: '',
@@ -83,7 +84,22 @@ export default {
       let result = await axios.get('/api/users/' + userId)
                    .catch(err => console.log(err));
       let info = result.data;
+      //*날짜 덮어쓰기
+      let newDate = this.dateFormat(info.join_date);
+      info.join_date = newDate;
+
       this.userInfo = info;             
+    },
+    dateFormat(value){
+      let result = null;
+      if(value != null) {
+        let date = new Date(value);
+        let year = date.getFullYear();
+        let month = ('0' + (date.getMonth()+1)).slice(-2);
+        let day = ('0'+ date.getDate()).slice(-2);
+        result = `${year}-${month}-${day}`;
+      }
+      return result;
     },
 
     updateInfo() {
@@ -99,15 +115,15 @@ export default {
         if(changed == 0) {
           alert(`수정되지 않았습니다.\n메세지를 확인해 주세요\n${result.data.message}`)
         }else {
-          alert(`정상적으로 수정되었습니다.`);
-          this.$router.push({ path: '/' });
+          alert(`수정되었습니다.`);
+          // this.$router.push({ path: '/' });
         }
       })
       .catch(err => console.log(err))
     },
     validation() { //유효성 체크
       if(this.userInfo.user_pwd == '') {
-        alert('pw를 입력하세요');
+        alert('비밀번호를 입력하세요');
         return false;
       }
       if(this.userInfo.user_name == '') {
@@ -120,7 +136,7 @@ export default {
     getSendData() {
       let obj = this.userInfo;
 
-      let delData = ["user_no", "user_id", "join_date"]; //user_no은 크게 의미있지 않아 안 넣어도 되긴 함
+      let delData = ["user_no", "user_id"]; 
       let newObj = {};
 
       let isTargeted = null;    

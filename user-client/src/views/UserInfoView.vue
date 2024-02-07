@@ -64,13 +64,6 @@ export default {
       }
       return result;
     },
-    // userGender() {
-    //   let map = {
-    //     "M": "남",
-    //     "F": "여"
-    //   };
-    //   return map[this.userInfo.user_gender];
-    // },
 
     //가입날짜(연월일)
     joinDate() {
@@ -78,7 +71,7 @@ export default {
       if(this.userInfo.join_date != null) {
         let join = new Date(this.userInfo.join_date);
         let year = join.getFullYear();
-        let month = ('0' + join.getMonth() + 1).slice(-2);
+        let month = ('0' + (join.getMonth() + 1)).slice(-2);
         let date = ('0' + join.getDate()).slice(-2);
 
         result = `${year}년 ${month}월 ${date}일`;
@@ -102,21 +95,23 @@ export default {
     },
     goToUpdate(userId) {
       //수정폼 component 호출
-      this.$router.push({path: '/userUpdate', query: {"userId": userId}});
+      // this.$router.push({path: '/userUpdate', query: {"userId": userId}}); //= query: {userId}
+      this.$router.push({path: '/userForm', query: {"userId": userId}}); //= query: {userId}
     },
+
     deleteInfo(userId) {
       //서버에 해당 데이터 삭제
       axios
-        .delete('/api/users/' + userId)
-        .then(result => {
-          if(result.data.affectedRows != 0 && result.data.changedRows == 0) {
-            alert('정상적으로 삭제되었습니다');
-            this.$router.push({ path: '/' });
-          }else {
-            alert(`삭제되지 않았습니다\n메세지를 확인해주세요\n${result.data.message}`);
-          }
-        })
-        .catch(err => console.log(err));
+      .delete('/api/users/' + userId)
+      .then(result => {
+        if(result.data.affectedRows != 0 && result.data.changedRows == 0) { //동일 건 삭제하면 affectedRosws 0으로 반환 됨
+          alert('삭제되었습니다');
+          this.$router.push({ path: '/' });
+        }else {
+          alert(`삭제되지 않았습니다\n메세지를 확인해주세요\n${result.data.message}`);
+        }
+      })
+      .catch(err => console.log(err));
     }
 
 

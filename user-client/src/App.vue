@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header />
-    <router-view />
+    <router-view :key="$route.fullPath" /> <!--unique한 값 주려면 fullPath-->
   </div>
 </template>
 

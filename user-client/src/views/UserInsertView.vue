@@ -75,26 +75,35 @@ export default {
       }
     }
   },
+  created(){
+    //*기본 세팅할 때도 사용 (인스턴스 생성 끝나고 데이터 옵션 접근 가능하니)
+    this.userInfo.join_date = this.getToday()
+  },
   methods: {
+    getToday(){
+        let date = new Date();
+        let year = date.getFullYear();
+        let month = ('0' + (date.getMonth()+1)).slice(-2);
+        let day = ('0'+ date.getDate()).slice(-2);
+        return `${year}-${month}-${day}`;
+    },
     insertInfo() {
-      //1.유효성 체크
+      //< 유효성 체크 >
       if(!this.validation()) return;
-      //2.ajax
-      //2-1) 실제 보낼 데이터 선별
+      //< ajax >
+      // 1)실제 보낼 데이터 선별
       let data = this.getSendData();
-      
-      //2-2) axios를 이용해 ajax 실행
-      //http://localhost:3000/users
+      // 2)axios를 이용해 ajax 실행 - http://localhost:3000/users
       axios
       .post('/api/users', data) //data 반드시 객체or배열 --axios 자동으로 json포맷으로 변환
       .then(result => {
-        //3.결과처리
+        //< 결과처리 >
         // console.log(result);
         let user_no = result.data.insertId;
         if(user_no == 0) {
           alert(`등록되지 않았습니다.\n메세지를 확인해 주세요\n${result.data.message}`)
         }else {
-          alert(`정상적으로 등록되었습니다.`);
+          alert(`등록되었습니다.`);
           this.userInfo.user_no = user_no; //input비어있던 값 추가시켜 주려고
         }
       })
@@ -102,11 +111,11 @@ export default {
     },
     validation() { //유효성 체크
       if(this.userInfo.user_id == '') {
-        alert('id를 입력하세요');
+        alert('아이디를 입력하세요');
         return false;
       } 
       if(this.userInfo.user_pwd == '') {
-        alert('pw를 입력하세요');
+        alert('비밀번호를 입력하세요');
         return false;
       }
       if(this.userInfo.user_name == '') {
@@ -134,7 +143,6 @@ export default {
               newObj[field] = obj[field];
           }
       }
-      
       let sendData = {
         "param": newObj  //실제 보내고자 하는 데이터 형식으로 param으로 감싸서
       }
