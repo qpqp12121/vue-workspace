@@ -34,12 +34,6 @@
             <input class="form-control" type="date" v-model="boardInfo.created_date">
           </td>
         </tr>
-        <tr>  
-          <th class="text-right table-primary">수정일자</th>
-          <td class="text-center">
-            <input class="form-control" type="date" v-model="boardInfo.updated_date" v-bind:readonly="updatedDate">
-          </td>
-        </tr>
       </table>
     </div>
     <div class="row">
@@ -60,12 +54,10 @@ export default {
         title:'',
         writer: '',
         content: '',
-        created_date: null,
-        updated_date: null
+        created_date: null
       },
       searchNo: null,
-      isUpdated: false,
-      updatedDate: true
+      isUpdated: false
     }
   },
   computed: {
@@ -77,7 +69,6 @@ export default {
     this.searchNo = this.$route.query.boardNo;
     if(this.searchNo != null && this.searchNo != undefined) {
       this.getBoardInfo();
-      // this.boardInfo.updated_date = this.getDate('');
     }else {
       this.boardInfo.created_date = this.getDate('');
     }
@@ -119,7 +110,7 @@ export default {
           alert('저장되었습니다');
 
           if(result.data.insertId > 0) {
-           this.userInfo.user_no = result.data.insertId;
+           this.boardInfo.no = result.data.insertId;
           }
         }
       })
@@ -151,8 +142,7 @@ export default {
             title: this.boardInfo.title,
             writer: this.boardInfo.writer,
             content: this.boardInfo.content,
-            created_date: this.boardInfo.created_date,
-            updated_date: this.boardInfo.updated_date
+            created_date: this.boardInfo.created_date
           }
         };
       }
