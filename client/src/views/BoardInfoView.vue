@@ -2,28 +2,25 @@
   <div>
     <br>
     <div class="container">
-    <table class="table" style="border: 1px solid;">
-          <tr>
-            <th>번호</th>
+    <table class="table">
+          <tr class="border">
+            <th class="back">번호</th>
             <td>{{ boardInfo.no }}</td>
-            <th>작성일</th>
+            <th class="back">작성일</th>
             <td>{{ createdDate }}</td>
-            <th>이름</th>
+            <th class="back">이름</th>
             <td>{{ boardInfo.writer }}</td>
           </tr>
-          <br>
-          <tr>
-            <th>제목</th>
-            <td colspan="6">{{ boardInfo.title }}</td>
+          <tr class="border">
+            <th class="back">제목</th>
+            <td colspan="6" class="title">{{ boardInfo.title }}</td>
           </tr>
-          <br>
-          <tr>
-            <td colspan="6">{{ boardInfo.content }}</td>
+          <tr class="height">
+            <td  class="height" colspan="6">{{ boardInfo.content }}</td>
             </tr>
         </table>
-        <button class="btn btn-warning col-4" v-on:click="goToUpdate(boardInfo.no)">수정</button>
-    </div>
-
+        <button class="btnInfo btn btn-warning col-4" v-on:click="goToUpdate(boardInfo.no)">수정</button>
+      </div>
     </div>
       <CommentList />
     <div>
@@ -78,5 +75,27 @@ export default {
 </script>
 
 <style>
+.table, .border td {
+  border: 1px solid #ddd;
+}
+.border {
+  height: 30px;
+}
+.title {
+  height: 40px;
+  text-align: left;
+}
+.back {
+  background-color: rgb(200, 234, 248);
+}
 
+.height {
+  height: 250px;
+  text-align: justify;
+  padding: 10px;
+}
+.btnInfo {
+  background-color: rgb(248, 255, 150);
+  font-weight: 800;
+}
 </style>

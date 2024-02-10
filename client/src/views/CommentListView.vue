@@ -1,17 +1,15 @@
 <template>
   <br>
-  <div class="container">
-    <p style="text-align: left;">댓글 목록</p>
-    <table>
+  <div class="containerCom">
+    <p class="com">댓글 목록</p>
+    <div v-if="commentList.length==0" class="no">댓글 없음</div>
+    <table class="table">
       <template v-for="(comment, i) in commentList" :key="i">
-        <div style="border: 1px solid #ddd;">
         <tr>
-          <td>{{ comment.content }}</td>
+          <td class="width">{{ comment.content }}<br>
+            <span class="right">{{ comment.writer }} | {{ comment.created_date }}</span>
+          </td>
         </tr>
-        <tr>
-          <td>{{ comment.writer }} | {{ comment.created_date }}</td>
-        </tr>
-      </div> 
       </template>
     </table>  
   </div>
@@ -23,7 +21,8 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      commentList: []
+      commentList: [],
+      
     }
   },
   created() {
@@ -43,9 +42,28 @@ export default {
 </script>
 
 <style>
-.container {
+.containerCom {
+  border: 1px solid #ddd;
+  width: 1296px;
+  padding: 30px;
+  margin-left: 68px;
+}
+.width {
+  width: 1200px;
+  text-align: left;
   border: 1px solid #ddd;
 }
-
+.right {
+  float: right;
+}
+.com {
+  text-align: left; 
+  font-weight: bolder;
+}
+.no {
+  border: 1px solid #ddd;
+  height: 100px;
+  padding-top: 30px;
+}
 
 </style>
