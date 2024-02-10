@@ -9,6 +9,7 @@
           <th>제목</th>
           <th>작성자</th>
           <th>작성일자</th>
+          <th>댓글 수</th>
         </tr>
       </thead>
       <tbody>
@@ -17,6 +18,7 @@
           <td>{{ board.title }}</td>
           <td>{{ board.writer }}</td>
           <td>{{ board.created_date }}</td>
+          <td>{{ board.comment_cnt }}</td>
         </tr>
       </tbody>
     </table>
@@ -32,11 +34,8 @@ export default {
       boardList: []
     }
   },
-  computed: {
-    
-  },
   created() {
-    this.getBoardList(); 
+    this.getBoardList();
   },
   methods: {
     async getBoardList() {                     

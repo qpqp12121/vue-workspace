@@ -23,10 +23,16 @@
         </table>
         <button class="btn btn-warning col-4" v-on:click="goToUpdate(boardInfo.no)">수정</button>
     </div>
+
+    </div>
+      <CommentList />
+    <div>
+
   </div>
 </template>
 
 <script>
+import CommentList from './CommentListView.vue'
 import axios from 'axios'
 
 export default {
@@ -34,6 +40,9 @@ export default {
     return {
       boardInfo: {},
     }
+  },
+  components: {
+    CommentList
   },
   computed: {
     createdDate() {
