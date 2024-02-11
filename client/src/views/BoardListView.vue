@@ -1,8 +1,6 @@
-<!-- BoardListView.vue -->
 <template>
-  <br>
   <div class="container">
-    <table class="table"> <!--bootstrap css-->
+    <table class="table">
       <thead>
         <tr>
           <th>No.</th>
@@ -13,15 +11,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(board, i) in boardList" v-bind:key="i" @click="goToBoardInfo(board.no)">
+        <tr v-for="(board, i) in boardList" :key="i" @click="goToBoardInfo(board.no)">
           <td>{{ board.no }}</td>
           <td>{{ board.title }}</td>
           <td>{{ board.writer }}</td>
-          <td>{{ board.created_date }}</td>
+          <td>{{ createdDate(board.created_date) }}</td>
           <td>{{ board.comment_cnt }}</td>
         </tr>
       </tbody>
     </table>
+    
   </div>
 </template>
 
@@ -38,15 +37,27 @@ export default {
     this.getBoardList();
   },
   methods: {
-    async getBoardList() {                     
+    async getBoardList() {
       let result = await axios.get('/api/boards')
-                        .catch(err => console.log(err));
+                          .catch(err => console.log(err));
       let list = result.data;
-      this.boardList = list;            
+      this.boardList = list;                    
     },
-    goToBoardInfo(boardNo) { //컴포넌트 바꿔야 되니 라우터한테 요청
-      this.$router.push({path: '/boardInfo', query: { "boardNo": boardNo }});
+    createdDate(createdDate) {
+      let result = null;
+      if(createdDate != null){
+        let created = new Date(createdDate);
+        let year = created.getFullYear();
+        let month = ('0' + (created.getMonth() + 1)).slice(-2);
+        let date = ('0' + created.getDate()).slice(-2);
+
+        result = `${year}년 ${month}월 ${date}일`
+      }  
+      return result;
+    },
+    goToBoardInfo(boardNo) {
+      this.$router.push({ path: '/boardInfo', query: { boardNo } });
     }
   }
-};
+}
 </script>
