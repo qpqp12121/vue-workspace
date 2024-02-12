@@ -1,19 +1,19 @@
 <template>
-  <div>
+  <!-- <div>
     <nav class="navbar bg-body-tertiary">
       <div class="container-fluid">
         <span class="center navbar-text"> 2024 Yedam Board </span>
       </div>
     </nav>
-  </div>
-</template>
+  </div> -->
 
-<style>
-.center {
-  width: 100%;
-  height: 50px;
-  padding-left: 20px;
-  font-weight: 700;
-  text-align: left;
-}
-</style>
+  <div class="container">
+  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <p class="col-md-4 mb-0 text-body-secondary">© 2024 Company, Inc</p>
+    <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+      <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+    </a>
+  </footer>
+</div>
+
+</template>

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <table class="table">
+    <table class="table list-center">
       <thead>
         <tr>
           <th>No.</th>
@@ -61,3 +61,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.list-center {
+  text-align: center;
+}
+</style>

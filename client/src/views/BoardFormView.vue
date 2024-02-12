@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container width">
     <br>
     <h4>{{ title }}</h4>
     <br>
@@ -34,14 +34,12 @@
           <th>작성일자</th>
         </tr>
         <tr>
-          <td><input class="form-control" type="date" v-model="boardInfo.created_date"></td>
+          <td><input class="form-control" type="date" v-model="boardInfo.created_date" readonly></td>
         </tr>
       </table>
     </div>
-    
-    <button class="left btn btn-primary" @click="saveInfo(searchNo)">저장</button>
+      <button class="btn btn-primary" @click="saveInfo(searchNo)">저장</button>
     </div>
-
   </div>
 
 
@@ -143,9 +141,8 @@ export default {
     },
     
     getDate(value) {
-      if(value == null) return null;
-
-      let date = value == ''? new Date() : new Date(value); //? 등록 : 수정 ?
+      // if(value == null) return null; //column not null이라 없어도 됨 
+      let date = value == ''? new Date() : new Date(value);
       let year = date.getFullYear();
       let month = ('0' + (date.getMonth() + 1)).slice(-2);
       let day = ('0' + date.getDate()).slice(-2);
@@ -172,13 +169,14 @@ export default {
 <style>
 .form th {
   text-align: left;
+  padding: 5px 0;
 }
-/* .left {
-  align-items: left;
-} */
 .all {
-  padding: 50px;
-  height: 700px;
+  padding: 40px;
+  height: 720px;
   border: 1px solid #ccc;
+}
+.width {
+  padding: 0 40px;
 }
 </style>

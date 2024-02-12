@@ -1,7 +1,7 @@
 <template>
   <div id="info" class="container">
     <br>
-    <table class="table">
+    <table class="table form-center">
       <tr class="first">
         <th>번호</th>
         <td>{{ boardInfo.no }}</td>
@@ -18,7 +18,10 @@
         <td colspan="9" class="content">{{ boardInfo.content }}</td>
       </tr>
     </table>
-    <button class="btn btn-secondary" @click="goToUpdate(boardInfo.no)">수정</button>
+  
+    <div class="btn-center">
+      <button class="btn btn-secondary" @click="goToUpdate(boardInfo.no)">수정</button>
+    </div>  
   </div>
   <br>
   <Comment />
@@ -72,6 +75,9 @@ export default {
 #info th {
   background-color: rgb(227, 245, 252);
 }
+#info {
+  margin-top: 10px;
+}
 .first {
   height: 35px;
 }
@@ -80,10 +86,18 @@ export default {
   padding-left: 10px;
   height: 45px;
 }
+.form-center {
+  text-align: center;
+}
 .content {
-  text-align: start;
+  vertical-align: top;
+  text-align: left;
+  padding-top: 10px;
   padding-left: 10px;
   height: 300px;
+}
+.btn-center {
+  text-align: center;
 }
 
 </style>

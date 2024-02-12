@@ -1,6 +1,7 @@
 <template>
-  <div class="container comment">
-    <p class="list">댓글 목록</p>
+  <div class="container">
+    <div class="container comment">
+    <p>댓글 목록</p>
     <div v-if="commentList.length == 0" class="no">댓글 없음</div>
     <div class="box">
       <table class="table">
@@ -13,6 +14,7 @@
           </tr>
         </template>
       </table>
+    </div>
     </div>
   </div>
 </template>
@@ -45,27 +47,32 @@ export default {
 <style>
 .comment {
   border: 1px solid #ccc;
+  border-radius: 5px;
   padding: 20px;
-}
-.list {
-  text-align: left;
 }
 .no {
   border: 1px solid #ddd;
+  border-radius: 5px;
   height: 100px;
   padding-top: 30px;
+  text-align: center;
 }
 .box td{
-  height: 35px;
+  height: 30px;
   padding: 10px 20px;
-  border: 1px solid #ccc;  
 }
 
 .box tr:nth-child(2n+1) {
-  text-align: left;
+  /* text-align: left; */
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+
 }
 .box tr:nth-child(2n) {
-  /* border-top: none; */
   text-align: right;
+  border-bottom: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
 }
 </style>
